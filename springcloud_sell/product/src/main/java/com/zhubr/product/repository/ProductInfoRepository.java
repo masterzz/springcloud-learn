@@ -1,7 +1,10 @@
 package com.zhubr.product.repository;
 
+import com.zhubr.product.dataobject.ProductInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ProductInfoRepository extends JpaRepository {
+import java.util.List;
 
+public interface ProductInfoRepository extends JpaRepository<ProductInfo,String> {
+    List<ProductInfo> findByProductStatus(Integer productStatus);
 }
