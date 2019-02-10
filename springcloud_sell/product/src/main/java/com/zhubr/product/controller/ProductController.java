@@ -1,11 +1,14 @@
 package com.zhubr.product.controller;
 
+import com.zhubr.product.VO.ProductInfoVO;
 import com.zhubr.product.VO.ProductVO;
 import com.zhubr.product.VO.ResultVO;
 import com.zhubr.product.dataobject.ProductCategory;
 import com.zhubr.product.dataobject.ProductInfo;
 import com.zhubr.product.service.CategoryService;
 import com.zhubr.product.service.ProductService;
+import com.zhubr.product.utils.ResultVOUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,10 +44,25 @@ public class ProductController {
         List<ProductCategory> categoryList = categoryService.findByCategoryTypeIn(categoryTypeList);
 //        4，构造数据
         List<ProductVO> productVOList = new ArrayList<ProductVO>();
-        for(ProductCategory productCategory : categoryList) {
+        for (ProductCategory productCategory : categoryList) {
             ProductVO productVO = new ProductVO();
             productVO.setCategoryName(productCategory.getCategoryName());
+            productVO.setCategoryType(productCategory.getCategoryType());
+
+            List<ProductInfoVO> productInfoVOList = new ArrayList<>();
+            for (ProductInfo productInfo : productInfoList) {
+                if (productInfo.getCategoryType().equals(productCategory.getCategoryType())) {
+                    ProductInfoVO productInfoVO = new ProductInfoVO();
+//                通过BeanUtils的copy方法可以拷贝属性
+                    BeanUtils.copyProperties(productInfo, productInfoVO);
+                    productInfoVOList.add(productInfoVO);
+                }
+            }
+
+            productVO.setProductInfoVOList(productInfoVOList);
+            productVOList.add(productVO);
         }
-        return null;
+
+        return ResultVOUtil.success(productVOList);
     }
 }
