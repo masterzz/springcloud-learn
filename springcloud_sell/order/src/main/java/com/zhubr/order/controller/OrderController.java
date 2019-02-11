@@ -1,5 +1,10 @@
 package com.zhubr.order.controller;
 
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("")
 public class OrderController {
     /**
      * 1,参数校验
