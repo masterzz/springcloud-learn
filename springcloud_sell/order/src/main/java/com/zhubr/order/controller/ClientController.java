@@ -2,6 +2,7 @@ package com.zhubr.order.controller;
 
 import com.zhubr.order.ProductClient;
 import com.zhubr.order.dataobject.ProductInfo;
+import com.zhubr.order.dto.CartDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,4 +58,9 @@ public class ClientController {
         return "ok";
     }
 
+    @GetMapping("/productDecreaseStock")
+    public String productDecreaseStock() {
+        productClient.decreaseStock(Arrays.asList(new CartDTO("164103465734242707",3)));
+        return "ok";
+    }
 }

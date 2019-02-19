@@ -1,5 +1,6 @@
 package com.zhubr.product.service;
 
+import com.zhubr.product.DTO.CartDTO;
 import com.zhubr.product.ProductApplicationTests;
 import com.zhubr.product.dataobject.ProductInfo;
 import org.junit.Assert;
@@ -7,6 +8,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,5 +29,12 @@ public class ProductServiceTest extends ProductApplicationTests {
     public void findList() throws Exception {
         List<ProductInfo> upAll = productService.findList(Arrays.asList("157875196366160022", "157875227953464068"));
         Assert.assertTrue(upAll.size() > 0);
+    }
+
+    @Test
+    public void decreaseStock() throws Exception {
+        CartDTO cartDTO = new CartDTO("157875196366160022",2);
+        productService.decreaseStock(Arrays.asList(cartDTO));
+
     }
 }
