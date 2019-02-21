@@ -1,4 +1,4 @@
-package com.zhubr.product.DTO;
+package com.zhubr.product.dto;
 
 import lombok.Data;
 
@@ -9,6 +9,9 @@ public class CartDTO {
 
     //商品数量
     private Integer productQuantiry;
+
+    public CartDTO() {
+    }
 
     public CartDTO(String productId, Integer productQuantiry) {
         this.productId = productId;
