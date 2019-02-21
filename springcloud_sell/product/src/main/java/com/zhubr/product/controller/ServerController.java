@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ServerController {
     @GetMapping("/msg")
     public String msg() {
-        return "this is product's msg";
+        return "this is product's msg 1";
     }
 
 }

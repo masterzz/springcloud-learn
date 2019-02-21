@@ -37,7 +37,6 @@ public class OrderServiceImpl implements OrderService {
         orderMaster.setPayStatus(PayStatusEnum.WAIT.getCode());
 
         orderMasterRepository.save(orderMaster);
-
         return orderDTO;
     }
 }
