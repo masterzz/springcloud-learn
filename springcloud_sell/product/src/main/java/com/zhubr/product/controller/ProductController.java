@@ -1,5 +1,6 @@
 package com.zhubr.product.controller;
 
+import com.zhubr.product.DTO.CartDTO;
 import com.zhubr.product.VO.ProductInfoVO;
 import com.zhubr.product.VO.ProductVO;
 import com.zhubr.product.VO.ResultVO;
@@ -10,9 +11,7 @@ import com.zhubr.product.service.ProductService;
 import com.zhubr.product.utils.ResultVOUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,13 +66,17 @@ public class ProductController {
     }
 
     /**
-     * 获取商品列表（给订单服务用的）
-     *
+     * 获取商品列表（给订单服务用）
      * @param productIdList
      * @return
      */
-    @GetMapping("listForOrder")
-    public List<ProductInfo> listForOrder(List<String> productIdList) {
-        return null;
+    @PostMapping("/listForOrder")
+    public List<ProductInfo>    listForOrder(@RequestBody List<String> productIdList) {
+        return productService.findList(productIdList);
+    }
+
+    @PostMapping("/decreaseStock")
+    public void decreaseStock(@RequestBody List<CartDTO> cartDTOList) {
+        productService.decreaseStock(cartDTOList);
     }
 }

@@ -58,10 +58,16 @@
         </dependency>
 
         <dependency>
+<<<<<<< HEAD
             <groupId>org.springframework.cloud </groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
 
+=======
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+>>>>>>> 7aa14abcd41915cdbc0568a5405712d1add44ba5
     </dependencies>
 
     <dependencyManagement>
