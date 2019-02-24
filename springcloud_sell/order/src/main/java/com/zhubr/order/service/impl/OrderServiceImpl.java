@@ -1,9 +1,10 @@
 package com.zhubr.order.service.impl;
 
-import com.zhubr.order.ProductClient;
+import com.zhubr.order.client.ProductClient;
 import com.zhubr.order.dataobject.OrderDetail;
 import com.zhubr.order.dataobject.OrderMaster;
 import com.zhubr.order.dataobject.ProductInfo;
+import com.zhubr.order.dto.CartDTO;
 import com.zhubr.order.dto.OrderDTO;
 import com.zhubr.order.enums.OrderStatusEnum;
 import com.zhubr.order.enums.PayStatusEnum;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,29 +42,38 @@ public class OrderServiceImpl implements OrderService {
                 .collect(Collectors.toList());
         List<ProductInfo> productInfoList = productClient.listForOrder(productIdList);
 //        3，计算总价
-        BigDecimal orderAmout = new BigDecimal(BigInteger.ZERO);
+        BigDecimal orderAmount = new BigDecimal(BigInteger.ZERO);
         for (OrderDetail orderDetail : orderDTO.getOrderDetailList()) {
             for (ProductInfo productInfo : productInfoList) {
                 if(productInfo.getProductId().equals(orderDetail.getProductId())) {
                     //            单价*数量
-                    orderAmout = productInfo.getProductPrice().multiply(new BigDecimal(orderDetail.getProductQuantity()))
-                    .add(orderAmout);
+                    orderAmount = productInfo.getProductPrice().multiply(new BigDecimal(orderDetail.getProductQuantity()))
+                    .add(orderAmount);
                     BeanUtils.copyProperties(productInfo, orderDetail);
                     orderDetail.setOrderId(orderId);
                     orderDetail.setDetailId(KeyUtil.getUniqueKey());
+                    orderDetail.setCreateTime(new Date());
+//                    订单详情入库
+                    orderDetailRepository.save(orderDetail);
                 }
             }
         }
 
 //        4，扣库存
+        List<CartDTO> cartDTOList = orderDTO.getOrderDetailList().stream()
+                .map(e -> new CartDTO(e.getProductId(),e.getProductQuantity()))
+                .collect(Collectors.toList());
+        productClient.decreaseStock(cartDTOList);
 //         5，订单入库
         OrderMaster orderMaster = new OrderMaster();
         orderDTO.setOrderId(orderId);
         BeanUtils.copyProperties(orderDTO, orderMaster);
 
-        orderMaster.setOrderAmount(orderAmout);
+        orderMaster.setOrderAmount(orderAmount);
         orderMaster.setOrderStatus(OrderStatusEnum.NEW.getCode());
         orderMaster.setPayStatus(PayStatusEnum.WAIT.getCode());
+        orderMaster.setCreateTime(new Date());
+        orderMaster.setUpdateTime(new Date());
 
         orderMasterRepository.save(orderMaster);
         return orderDTO;

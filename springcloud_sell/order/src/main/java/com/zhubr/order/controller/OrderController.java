@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("")
+@RequestMapping("/order")
 @Slf4j
 public class OrderController {
     @Autowired

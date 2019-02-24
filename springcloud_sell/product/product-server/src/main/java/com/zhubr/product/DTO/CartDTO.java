@@ -1,4 +1,4 @@
-package com.zhubr.product.DTO;
+package com.zhubr.product.dto;
 
 import lombok.Data;
 

@@ -1,6 +1,6 @@
 package com.zhubr.product.service;
 
-import com.zhubr.product.DTO.CartDTO;
+import com.zhubr.product.dto.CartDTO;
 import com.zhubr.product.dataobject.ProductInfo;
 
 import java.util.List;
