@@ -8,11 +8,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 @Component
 public class ProductServiceTest extends ProductApplicationTests {

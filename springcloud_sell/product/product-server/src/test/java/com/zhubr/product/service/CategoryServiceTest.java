@@ -10,8 +10,6 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 @Component
 public class CategoryServiceTest extends ProductApplicationTests {
     @Autowired
